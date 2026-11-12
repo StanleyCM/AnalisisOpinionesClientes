@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "AnalisisOpiniones.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "health",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:57250"
+    }
+  }
+}
