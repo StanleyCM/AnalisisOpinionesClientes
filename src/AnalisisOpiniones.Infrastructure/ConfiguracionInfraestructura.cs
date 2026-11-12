@@ -1,4 +1,5 @@
 using AnalisisOpiniones.Application;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,14 +11,22 @@ public static class ConfiguracionInfraestructura
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var cadenaConexion = configuration.GetConnectionString("AnalisisOpinionesClientes");
+        const string nombreBaseDatos = "AnalisisOpinionesETL";
+        var cadenaConexion = configuration.GetConnectionString(nombreBaseDatos);
         if (string.IsNullOrWhiteSpace(cadenaConexion))
         {
             throw new InvalidOperationException(
-                "Falta la configuracion ConnectionStrings:AnalisisOpinionesClientes.");
+                $"Falta la configuracion ConnectionStrings:{nombreBaseDatos}.");
         }
 
-        services.AddSingleton<IVerificadorBaseDatos>(new VerificadorSqlServer(cadenaConexion));
+        var conexionSql = new SqlConnectionStringBuilder(cadenaConexion);
+        if (!string.Equals(conexionSql.InitialCatalog, nombreBaseDatos, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException(
+                $"ConnectionStrings:{nombreBaseDatos} debe indicar Database={nombreBaseDatos}.");
+        }
+
+        services.AddSingleton<IVerificadorBaseDatos>(new VerificadorSqlServer(conexionSql.ConnectionString));
 
         var url = configuration["Fuentes:ComentariosSociales:BaseUrl"];
         Uri? direccionBase = null;

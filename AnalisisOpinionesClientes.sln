@@ -5,11 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{D55C24CB-285A-482B-8707-6C8BD7909490}"
-	ProjectSection(SolutionItems) = preProject
-		database\001_crear_base_datos.sql = database\001_crear_base_datos.sql
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalisisOpiniones.Api", "src\AnalisisOpiniones.Api\AnalisisOpiniones.Api.csproj", "{749C11D7-7366-4544-90E1-8DE569E845F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalisisOpiniones.Application", "src\AnalisisOpiniones.Application\AnalisisOpiniones.Application.csproj", "{ED14879E-CB34-46C2-8936-DD9E818DF009}"

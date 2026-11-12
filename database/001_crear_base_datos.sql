@@ -1,3 +1,6 @@
+-- Modelo anterior, conservado como referencia historica.
+-- La base vigente AnalisisOpinionesETL ya existe y se administra por separado.
+/*
 USE master;
 GO
 
@@ -177,3 +180,4 @@ BEGIN CATCH
     THROW;
 END CATCH;
 GO
+*/
