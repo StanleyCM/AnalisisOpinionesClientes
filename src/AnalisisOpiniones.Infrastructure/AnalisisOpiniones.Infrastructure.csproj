@@ -6,7 +6,11 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../AnalisisOpiniones.Application/AnalisisOpiniones.Application.csproj" />
+    <PackageReference Include="CsvHelper" Version="33.1.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.8" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="AnalisisOpiniones.Tests" />
   </ItemGroup>
 </Project>

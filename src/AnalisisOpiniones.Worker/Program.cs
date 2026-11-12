@@ -1,3 +1,5 @@
+using System.Data.Common;
+using AnalisisOpiniones.Application.Extraccion;
 using AnalisisOpiniones.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,21 +22,34 @@ if (string.IsNullOrWhiteSpace(carpetaCsv))
 var rutaEncuestas = Path.GetFullPath(
     Path.Combine(carpetaCsv, "surveys_part1.csv"), BuscarRaizSolucion());
 
+builder.Services.AgregarExtraccion(builder.Configuration, rutaEncuestas);
+builder.Services.AddSingleton<EjecutarExtraccion>();
+
+using var host = builder.Build();
+await host.StartAsync();
+var logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Extraccion");
+var detener = host.Services.GetRequiredService<IHostApplicationLifetime>().ApplicationStopping;
 try
 {
-    using var archivo = File.OpenRead(rutaEncuestas);
+    var casoDeUso = host.Services.GetRequiredService<EjecutarExtraccion>();
+    var resultado = await casoDeUso.EjecutarAsync(detener);
+    return resultado.Estado == "Completada" ? 0 : 1;
 }
-catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+catch (OperationCanceledException) when (detener.IsCancellationRequested)
 {
-    Console.Error.WriteLine($"No se pudo abrir el CSV requerido '{rutaEncuestas}': {exception.Message}");
+    logger.LogWarning("Extraccion cancelada antes de registrar la ejecucion.");
     return 1;
 }
-
-var host = builder.Build();
-host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Inicio")
-    .LogInformation("CSV de encuestas disponible en {RutaEncuestas}", rutaEncuestas);
-await host.RunAsync();
-return 0;
+catch (DbException exception)
+{
+    logger.LogError("No se pudo registrar o cerrar la ejecucion en SQL Server. Codigo {Codigo}, estado {Estado}.",
+        exception.ErrorCode, exception.SqlState);
+    return 1;
+}
+finally
+{
+    await host.StopAsync();
+}
 
 static string BuscarRaizSolucion()
 {

@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalisisOpiniones.Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalisisOpiniones.Worker", "src\AnalisisOpiniones.Worker\AnalisisOpiniones.Worker.csproj", "{4A7CF751-A1BE-43D1-8C2C-FE86ECAE6962}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalisisOpiniones.Tests", "tests\AnalisisOpiniones.Tests\AnalisisOpiniones.Tests.csproj", "{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +89,18 @@ Global
 		{4A7CF751-A1BE-43D1-8C2C-FE86ECAE6962}.Release|x64.Build.0 = Release|Any CPU
 		{4A7CF751-A1BE-43D1-8C2C-FE86ECAE6962}.Release|x86.ActiveCfg = Release|Any CPU
 		{4A7CF751-A1BE-43D1-8C2C-FE86ECAE6962}.Release|x86.Build.0 = Release|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Debug|x64.Build.0 = Debug|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Debug|x86.Build.0 = Debug|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Release|x64.ActiveCfg = Release|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Release|x64.Build.0 = Release|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,5 +111,6 @@ Global
 		{2318274C-4EA2-49BB-A486-89113A724527} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{FDE4662A-F021-4FA5-A5BB-639D95AADC04} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{4A7CF751-A1BE-43D1-8C2C-FE86ECAE6962} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{1C5C49CF-57C8-4D5B-AE62-E7DC511F74C1} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal

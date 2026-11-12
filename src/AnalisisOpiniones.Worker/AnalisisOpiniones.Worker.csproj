@@ -6,6 +6,7 @@
     <UserSecretsId>AnalisisOpiniones.Worker</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="../AnalisisOpiniones.Application/AnalisisOpiniones.Application.csproj" />
     <ProjectReference Include="../AnalisisOpiniones.Infrastructure/AnalisisOpiniones.Infrastructure.csproj" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
