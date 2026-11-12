@@ -115,17 +115,25 @@ public sealed class ExtraccionTests
         {
             foreach (var id in almacen.Ejecuciones)
             {
-                using var limpiar = new SqlCommand("""
-                    SET XACT_ABORT ON;
-                    BEGIN TRANSACTION;
-                    DELETE FROM staging.RegistroExtraido WHERE EjecucionId = @id;
-                    DELETE FROM staging.Ejecucion WHERE EjecucionId = @id;
-                    COMMIT TRANSACTION;
-                    """, conexion);
-                limpiar.Parameters.Add("@id", SqlDbType.BigInt).Value = id;
-                await limpiar.ExecuteNonQueryAsync();
+                await LimpiarEjecucionAsync(conexion, id);
             }
         }
+    }
+
+    internal static async Task LimpiarEjecucionAsync(SqlConnection conexion, long id)
+    {
+        if (id <= 0 || id == 6)
+            throw new InvalidOperationException("El identificador no corresponde a una ejecucion de prueba.");
+
+        using var limpiar = new SqlCommand("""
+            SET XACT_ABORT ON;
+            BEGIN TRANSACTION;
+            DELETE FROM staging.RegistroExtraido WHERE EjecucionId = @id;
+            DELETE FROM staging.Ejecucion WHERE EjecucionId = @id;
+            COMMIT TRANSACTION;
+            """, conexion);
+        limpiar.Parameters.Add("@id", SqlDbType.BigInt).Value = id;
+        await limpiar.ExecuteNonQueryAsync();
     }
 
     private static async Task ComprobarEjecucionAsync(

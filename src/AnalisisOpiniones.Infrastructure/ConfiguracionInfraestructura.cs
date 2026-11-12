@@ -4,6 +4,7 @@ using AnalisisOpiniones.Infrastructure.Extraccion;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AnalisisOpiniones.Infrastructure;
 
@@ -15,17 +16,13 @@ public static class ConfiguracionInfraestructura
     {
         services.AddSingleton<IVerificadorBaseDatos>(new VerificadorSqlServer(ObtenerCadenaConexion(configuration)));
 
-        var url = configuration["Fuentes:ComentariosSociales:BaseUrl"];
-        Uri? direccionBase = null;
-        if (!string.IsNullOrWhiteSpace(url) &&
-            (!Uri.TryCreate(url, UriKind.Absolute, out direccionBase) ||
-             direccionBase.Scheme is not ("http" or "https")))
-        {
-            throw new InvalidOperationException(
-                "Fuentes:ComentariosSociales:BaseUrl debe ser una URL absoluta HTTP o HTTPS.");
-        }
-
-        services.AddHttpClient("ComentariosSociales", client => client.BaseAddress = direccionBase);
+        services.AddHttpClient(ApiExtractor.NombreCliente, client => client.Timeout = Timeout.InfiniteTimeSpan)
+            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                AllowAutoRedirect = false,
+                UseCookies = false
+            })
+            .RemoveAllLoggers();
 
         return services;
     }
@@ -38,6 +35,10 @@ public static class ConfiguracionInfraestructura
         var cadenaConexion = ObtenerCadenaConexion(configuration);
         services.AddSingleton<IExtractor>(new CsvExtractor(rutaEncuestas));
         services.AddSingleton<IExtractor>(new DatabaseExtractor(cadenaConexion));
+        services.AddSingleton<IExtractor>(provider => new ApiExtractor(
+            provider.GetRequiredService<IHttpClientFactory>(),
+            configuration.GetSection("Fuentes:ComentariosSociales"),
+            provider.GetRequiredService<ILogger<ApiExtractor>>()));
         services.AddSingleton<IAlmacenExtraccion>(new AlmacenExtraccionSql(cadenaConexion));
         return services;
     }
