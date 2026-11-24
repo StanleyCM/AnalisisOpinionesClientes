@@ -1,5 +1,7 @@
 using AnalisisOpiniones.Application;
+using AnalisisOpiniones.Application.Dimensiones;
 using AnalisisOpiniones.Application.Extraccion;
+using AnalisisOpiniones.Infrastructure.Dimensiones;
 using AnalisisOpiniones.Infrastructure.Extraccion;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -40,6 +42,16 @@ public static class ConfiguracionInfraestructura
             configuration.GetSection("Fuentes:ComentariosSociales"),
             provider.GetRequiredService<ILogger<ApiExtractor>>()));
         services.AddSingleton<IAlmacenExtraccion>(new AlmacenExtraccionSql(cadenaConexion));
+        return services;
+    }
+
+    public static IServiceCollection AgregarCargaDimensiones(
+        this IServiceCollection services, IConfiguration configuration, string carpetaCsv)
+    {
+        var cadenaConexion = ObtenerCadenaConexion(configuration);
+        services.AddSingleton<IAlmacenDimensiones>(provider => new AlmacenDimensionesSql(
+            cadenaConexion, carpetaCsv, provider.GetRequiredService<ILogger<AlmacenDimensionesSql>>()));
+        services.AddSingleton<CargarDimensiones>();
         return services;
     }
 
